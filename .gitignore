@@ -1,0 +1,12 @@
+.idea/
+*.iml
+target/
+.idea/
+.git/
+.Ds_Store/
+.classpath
+.project
+.settings/
+.vscode/
+.sts4-cache/
+
