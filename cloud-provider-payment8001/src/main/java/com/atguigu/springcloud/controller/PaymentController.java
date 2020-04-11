@@ -5,6 +5,7 @@ import com.atguigu.springcloud.entities.Payment;
 import com.atguigu.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,13 +23,16 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
     
+    @Value("${server.port}")
+    private String serverPort;
+    
     @PostMapping("/payment/create")
     public CommonResult create(@RequestBody Payment payment) {
         log.info("add payment info, payment= [{}]", payment);
         
         int result =  paymentService.create(payment);
         if (result > 0) {
-            return new CommonResult(200, "插入成功");
+            return new CommonResult(200, "插入成功" + serverPort);
         }else {
             return new CommonResult(444, "插入失败");
         }
@@ -40,9 +44,9 @@ public class PaymentController {
 
         Payment result =  paymentService.getPaymentById(id);
         if (result != null) {
-            return new CommonResult(200, "查询成功", result);
+            return new CommonResult(200, "查询成功" + serverPort, result);
         }else {
-            return new CommonResult(444, "没有对应记录，查询ID:" + id);
+            return new CommonResult(444, "没有对应记录，查询ID:" + id, result);
         }
     }
 }
